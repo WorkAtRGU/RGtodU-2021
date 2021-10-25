@@ -175,7 +175,7 @@ public class ViewTaskFragment extends Fragment {
         outState.putString("task_priority", this.mTask.getPriority().getLabel());
         // add mTask deadline to outState
         outState.putLong("task_deadline", this.mTask.getDeadline().getTime());
-        int i =0;
+
     }
 
     @Override
