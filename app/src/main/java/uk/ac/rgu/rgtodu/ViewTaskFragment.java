@@ -77,6 +77,9 @@ public class ViewTaskFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         Log.d(FRAG_TAG, "fragment on create");
+
+        // initialise the data to be displayed in this UI
+        this.mTask = TaskRepository.getRepository(getContext()).getTask();
     }
 
     @Override
@@ -84,16 +87,16 @@ public class ViewTaskFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Log.d(FRAG_TAG, "fragment on create view");
-        View v =  inflater.inflate(R.layout.fragment_view_task, container, false);
-        this.mTask = TaskRepository.getRepository(getContext()).getTask();
-        displayTask(v, this.mTask);
-        return v;
+        return inflater.inflate(R.layout.fragment_view_task, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.d(FRAG_TAG, "on view created");
+
+        // display the task stored in mTask field
+        displayTask(view, this.mTask);
     }
 
     @Override
