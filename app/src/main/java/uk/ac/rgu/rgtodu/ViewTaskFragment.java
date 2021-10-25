@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import uk.ac.rgu.rgtodu.data.Task;
 import uk.ac.rgu.rgtodu.data.TaskPriority;
@@ -35,6 +36,7 @@ public class ViewTaskFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String task_hoursToCompletion = "task_hoursToCompletion";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -93,7 +95,42 @@ public class ViewTaskFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.d(FRAG_TAG, "on view created");
+        Log.d(FRAG_TAG, "fragment on view created");
+
+        // code to update this.mTask with details from savedInstanceState
+        if (savedInstanceState != null){
+            Task t = new Task();
+            // set t name based on savedInstanceState (ok)
+            t.setName(savedInstanceState.getString("task_name"));
+
+            // set t description based on savedInstanceState (better)
+            if (savedInstanceState.containsKey("task_description")){
+                t.setDescription(savedInstanceState.getString("task_description"));
+            }
+
+            // set t hoursToCompletion based on savedInstanceState (best)
+            if (savedInstanceState.containsKey(task_hoursToCompletion)){
+                t.setHoursToCompletion(savedInstanceState.getInt(task_hoursToCompletion, 1));
+            }
+
+            // set t deadline based on savedInstanceState
+            if (savedInstanceState.containsKey("task_deadline")){
+                // get the deadline from savedInstanceState
+                long deadline = savedInstanceState.getLong("task_deadline");
+                // create a new Date based on that
+                Date deadlineDate = new Date(deadline);
+                t.setDeadline(deadlineDate);
+            }
+
+            // set t priority based on savedInstanceState
+            if (savedInstanceState.containsKey("task_priority")){
+                String priortyStr = savedInstanceState.getString("task_priority");
+                TaskPriority priorityEnum = TaskPriority.valueOf(priortyStr);
+                t.setPriority(priorityEnum);
+            }
+
+            this.mTask = t;
+        }
 
         // display the task stored in mTask field
         displayTask(view, this.mTask);
@@ -128,6 +165,17 @@ public class ViewTaskFragment extends Fragment {
         super.onSaveInstanceState(outState);
         Log.d(FRAG_TAG, "fragment on save instance state");
 
+        // add mTask name to the outState
+        outState.putString("task_name", this.mTask.getName());
+        // add mTask description to outState
+        outState.putString("task_description", this.mTask.getDescription());
+        // add mTask hoursToCompletion to outState
+        outState.putInt(task_hoursToCompletion, this.mTask.getHoursToCompletion());
+        // add mTask priority to outState
+        outState.putString("task_priority", this.mTask.getPriority().getLabel());
+        // add mTask deadline to outState
+        outState.putLong("task_deadline", this.mTask.getDeadline().getTime());
+        int i =0;
     }
 
     @Override
