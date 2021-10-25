@@ -1,0 +1,58 @@
+<resources>
+
+    <string name="preferences_file">uk.ac.rgu.rgtodu</string>
+    <string name="pref_personalise_name">personalise_name</string>
+    <string name="pref_personalise_cloud_details">cloud_details</string>
+
+    <string name="app_name">RGTodU</string>
+    <string name="tv_home_msg_add_task">Got something to do?</string>
+    <string name="tv_home_msg_add_alternative">Something on your mind?</string>
+    <string name="btn_home_add_task">Add a task</string>
+    <string name="btn_home_view_tasks">View tasks (RecyclerView)</string>
+    <string name="btn_home_view_tasks_list">View tasks (ListView)</string>
+    <string name="btn_home_personalise">Personalise</string>
+
+    <!-- create tasks view -->
+    <string name="tv_taskName">Task name</string>
+    <string name="tv_priority">Priority</string>
+    <string name="tv_hoursEstimate">Estimated hours</string>
+    <string name="tv_deadline">Deadline</string>
+    <string name="btn_action">Save</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="tv_description">Description</string>
+    <string name="rb_low">low</string>
+    <string name="rb_medium">medium</string>
+    <string name="rb_high">high</string>
+    <string name="tv_viewPriority">Priority</string>
+    <string name="tv_viewScheduleFor">Scheduled for</string>
+    <string name="tv_viewHoursComplete">Hours to completion</string>
+    <string name="tv_viewTaskDeadline">Deadline</string>
+
+    <!-- view task activity -->
+    <string name="tv_viewHoursCompleteValue">%1$d</string>
+    <string name="btn_taskListItemView">View Task</string>
+    <string name="btn_view_add_calendar">Add deadline to calendar</string>
+    <string name="btn_view_do_task">Give me 20 minutes to do this task</string>
+
+    <!-- task list item view adapter -->
+    <string name="tv_taskListItemHours">%1$d Hours remaining</string>
+
+    <!-- personalise activity -->
+    <string name="tv_personalise_name">What should I call you?</string>
+    <string name="tv_personalise_task_order">How would you like tasks ordered?</string>
+    <string name="tv_personalise_cloud_details">Where should I sync tasks to?</string>
+    <string-array name="sp_personalise_task_order">
+        <item>Due soonest</item>
+        <item>Newest</item>
+        <item>Oldest</item>
+        <item>Name (A-Z)</item>
+        <item>Name (Z-A)</item>
+    </string-array>
+    <string name="btn_personalise_save">Store my preferences</string>
+
+    <string name="tv_taskListItemHoursDiplay">%1$d hours</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
+
+

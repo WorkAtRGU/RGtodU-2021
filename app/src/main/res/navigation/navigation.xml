@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/viewTaskFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="uk.ac.rgu.rgtodu.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_home_to_create_task"
+            app:destination="@id/createTaskFragment"
+            app:enterAnim="@android:anim/slide_in_left" />
+        <action
+            android:id="@+id/action_home_to_recyclerview_tasks"
+            app:destination="@id/taskRecyclerViewFragment" />
+        <action
+            android:id="@+id/action_home_to_personalise"
+            app:destination="@id/personaliseFragment" />
+        <action
+            android:id="@+id/action_home_to_listview_tasks"
+            app:destination="@id/taskListViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createTaskFragment"
+        android:name="uk.ac.rgu.rgtodu.CreateTaskFragment"
+        android:label="fragment_create_task"
+        tools:layout="@layout/fragment_create_task" >
+        <action
+            android:id="@+id/action_create_task_to_home"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/taskRecyclerViewFragment"
+        android:name="uk.ac.rgu.rgtodu.TaskRecyclerViewFragment"
+        android:label="fragment_task_recycler_view"
+        tools:layout="@layout/fragment_task_recycler_view" >
+        <action
+            android:id="@+id/action_recyclerview_tasks_to_view_task"
+            app:destination="@id/viewTaskFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewTaskFragment"
+        android:name="uk.ac.rgu.rgtodu.ViewTaskFragment"
+        android:label="fragment_view_task"
+        tools:layout="@layout/fragment_view_task" >
+        <action
+            android:id="@+id/action_view_task_to_create_task"
+            app:destination="@id/createTaskFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/personaliseFragment"
+        android:name="uk.ac.rgu.rgtodu.PersonaliseFragment"
+        android:label="fragment_personalise"
+        tools:layout="@layout/fragment_personalise" >
+        <action
+            android:id="@+id/action_personalise_to_home"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/taskListViewFragment"
+        android:name="uk.ac.rgu.rgtodu.TaskListViewFragment"
+        android:label="fragment_task_list_view"
+        tools:layout="@layout/fragment_task_list_view" >
+        <action
+            android:id="@+id/action_listview_tasks_to_view_task"
+            app:destination="@id/viewTaskFragment" />
+    </fragment>
+</navigation>

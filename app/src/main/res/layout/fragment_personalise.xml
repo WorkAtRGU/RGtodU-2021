@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".PersonaliseFragment">
+
+<TextView
+    android:id="@+id/tv_personalise_name"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginTop="8dp"
+    android:text="@string/tv_personalise_name"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/et_personalise_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="David"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tv_personalise_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_personalise_name" />
+
+<TextView
+    android:id="@+id/tv_personalise_task_order"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:text="@string/tv_personalise_task_order"
+    app:layout_constraintStart_toStartOf="@+id/et_personalise_name"
+    app:layout_constraintTop_toBottomOf="@+id/et_personalise_name" />
+
+<Spinner
+    android:id="@+id/sp_personalise_task_order"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginRight="8dp"
+    android:entries="@array/sp_personalise_task_order"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/tv_personalise_task_order" />
+
+<Button
+    android:id="@+id/btn_personalise_save"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:text="@string/btn_personalise_save"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/et_personalise_cloud_details" />
+
+<TextView
+    android:id="@+id/tv_personalise_cloud_details"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:text="@string/tv_personalise_cloud_details"
+    app:layout_constraintStart_toStartOf="@+id/sp_personalise_task_order"
+    app:layout_constraintTop_toBottomOf="@+id/sp_personalise_task_order" />
+
+<EditText
+    android:id="@+id/et_personalise_cloud_details"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginRight="8dp"
+    android:ems="10"
+    android:inputType="textPersonName"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="1.0"
+    app:layout_constraintStart_toStartOf="@+id/tv_personalise_cloud_details"
+    app:layout_constraintTop_toBottomOf="@+id/tv_personalise_cloud_details" />
+</androidx.constraintlayout.widget.ConstraintLayout>

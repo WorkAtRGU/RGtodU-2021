@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".CreateTaskFragment">
+
+    <TextView
+        android:id="@+id/tv_taskName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_taskName"
+        app:layout_constraintBottom_toBottomOf="@+id/et_taskName"
+        app:layout_constraintTop_toTopOf="@+id/et_taskName"
+        app:layout_constraintVertical_bias="0.275"
+        tools:layout_editor_absoluteX="42dp" />
+
+<EditText
+    android:id="@+id/et_taskName"
+    android:layout_width="0dp"
+    android:layout_height="48dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginRight="8dp"
+    android:ems="10"
+    android:inputType="textPersonName"
+    android:text="Name"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toEndOf="@+id/tv_hoursEstimate"
+    app:layout_constraintTop_toTopOf="parent" />
+
+<RadioGroup
+    android:id="@+id/rb_taskPriority"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    app:layout_constraintEnd_toEndOf="@+id/et_taskName"
+    app:layout_constraintStart_toStartOf="@+id/et_taskName"
+    app:layout_constraintTop_toBottomOf="@+id/et_description">
+
+    <RadioButton
+        android:id="@+id/rb_low"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onRadioButtonClicked"
+        android:text="@string/rb_low" />
+
+    <RadioButton
+        android:id="@+id/rb_medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onRadioButtonClicked"
+        android:text="@string/rb_medium" />
+
+    <RadioButton
+        android:id="@+id/rb_high"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onRadioButtonClicked"
+        android:text="@string/rb_high" />
+</RadioGroup>
+
+<TextView
+    android:id="@+id/tv_priority"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:text="@string/tv_priority"
+    app:layout_constraintBottom_toBottomOf="@+id/rb_taskPriority"
+    app:layout_constraintEnd_toEndOf="@+id/tv_taskName"
+    app:layout_constraintTop_toTopOf="@+id/rb_taskPriority" />
+
+    <TextView
+    android:id="@+id/tv_hoursEstimate"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginLeft="8dp"
+    android:text="@string/tv_hoursEstimate"
+    app:layout_constraintBottom_toBottomOf="@+id/et_hoursEstimate"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="@+id/et_hoursEstimate" />
+
+    <EditText
+        android:id="@+id/et_hoursEstimate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintTop_toBottomOf="@+id/rb_taskPriority"
+        tools:layout_editor_absoluteX="118dp" />
+
+<TextView
+    android:id="@+id/tv_deadline"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/tv_deadline"
+    app:layout_constraintEnd_toEndOf="@+id/tv_hoursEstimate"
+    app:layout_constraintTop_toTopOf="@+id/cv_deadline" />
+
+<CalendarView
+    android:id="@+id/cv_deadline"
+    android:layout_width="0dp"
+    android:layout_height="272dp"
+    android:layout_marginTop="8dp"
+    app:layout_constraintEnd_toEndOf="@+id/et_hoursEstimate"
+    app:layout_constraintStart_toStartOf="@+id/et_hoursEstimate"
+    app:layout_constraintTop_toBottomOf="@+id/et_hoursEstimate" />
+
+<Button
+    android:id="@+id/btnAction"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/btn_action"
+    app:layout_constraintEnd_toStartOf="@+id/btnCancel"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintHorizontal_chainStyle="packed"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="@+id/btnCancel" />
+
+<Button
+    android:id="@+id/btnCancel"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:text="@string/btn_cancel"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintStart_toEndOf="@+id/btnAction"
+    app:layout_constraintTop_toBottomOf="@+id/cv_deadline" />
+
+<EditText
+    android:id="@+id/et_description"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:ems="10"
+    android:gravity="start|top"
+    android:inputType="textMultiLine"
+    app:layout_constraintEnd_toEndOf="@+id/et_taskName"
+    app:layout_constraintStart_toStartOf="@+id/et_taskName"
+    app:layout_constraintTop_toBottomOf="@+id/et_taskName" />
+
+<TextView
+    android:id="@+id/tv_description"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/tv_description"
+    app:layout_constraintEnd_toEndOf="@+id/tv_taskName"
+    app:layout_constraintTop_toTopOf="@+id/et_description" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
