@@ -1,5 +1,6 @@
 package uk.ac.rgu.rgtodu;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,11 +12,14 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.OnLifecycleEvent;
 
+import android.provider.AlarmClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -30,7 +34,7 @@ import uk.ac.rgu.rgtodu.data.TaskRepository;
  * Use the {@link ViewTaskFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ViewTaskFragment extends Fragment {
+public class ViewTaskFragment extends Fragment implements View.OnClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -97,6 +101,10 @@ public class ViewTaskFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Log.d(FRAG_TAG, "fragment on view created");
 
+        // add action listener to the "do task" button
+        Button btnDoTask = view.findViewById(R.id.btn_view_do_task);
+        btnDoTask.setOnClickListener(this);
+
         // code to update this.mTask with details from savedInstanceState
         if (savedInstanceState != null){
             Task t = new Task();
@@ -135,6 +143,29 @@ public class ViewTaskFragment extends Fragment {
         // display the task stored in mTask field
         displayTask(view, this.mTask);
     }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btn_view_do_task){
+            // create a new Intent to launch the timer app
+            Intent intent = new Intent(AlarmClock.ACTION_SET_TIMER);
+            // set the length to 20 minutes
+            intent.putExtra(AlarmClock.EXTRA_LENGTH, 1200);
+            // use the task name as a message
+            intent.putExtra(AlarmClock.EXTRA_MESSAGE, mTask.getName());
+            // check that the intent can be resolved on this device
+
+            // this should run; however, always returns null so commented out for now.
+//            if (intent.resolveActivity(getActivity().getApplicationContext().getPackageManager()) != null) {
+                // it can, so do it
+                startActivity(intent);
+//            } else {
+//                // error handling in case can't launch it
+//                Toast.makeText(getContext().getApplicationContext(), R.string.view_lauch_timer_error, Toast.LENGTH_LONG);
+//            }
+        }
+    }
+
 
     @Override
     public void onStart() {
@@ -226,4 +257,6 @@ public class ViewTaskFragment extends Fragment {
         String formattedDate = format.format(task.getDeadline());
         tv_dateValue.setText(formattedDate);
     }
+
+
 }

@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -77,8 +78,17 @@ public class PersonaliseFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View view){
+        // get the name entered by the user, to send to HomeFragment
+        EditText etPersonaliseName = getView().findViewById(R.id.et_personalise_name);
+        String personaliseName = etPersonaliseName.getText().toString();
+
         Bundle bundle = new Bundle();
-        bundle.putString("param1", "Hello");
-//        Navigation.findNavController(view).navigate(R.id.action.., bundle);
+        // check something was actually entered
+        if (personaliseName.length() > 0) {
+            bundle.putString("displayName", personaliseName);
+        }
+        // launch the action
+        Navigation.findNavController(view).navigate(
+                R.id.action_personalise_to_home, bundle);
     }
 }

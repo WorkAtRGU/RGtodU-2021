@@ -7,16 +7,16 @@ android:layout_height="match_parent"
 tools:context=".HomeFragment">
 
     <TextView
-        android:id="@+id/tv_home_add_task"
+        android:id="@+id/tv_home_welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
+        android:text="@string/tv_home_msg_add_task"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Hello David, got something to do?" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 <Button
     android:id="@+id/btn_home_add_task"
@@ -29,7 +29,7 @@ tools:context=".HomeFragment">
     app:layout_constraintEnd_toStartOf="@+id/btn_home_view_tasks"
     app:layout_constraintHorizontal_bias="0.5"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/tv_home_add_task" />
+    app:layout_constraintTop_toBottomOf="@+id/tv_home_welcome" />
 
 <Button
     android:id="@+id/btn_home_view_tasks"
