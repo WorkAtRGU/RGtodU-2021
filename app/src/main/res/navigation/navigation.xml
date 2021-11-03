@@ -23,6 +23,10 @@
         <action
             android:id="@+id/action_home_to_listview_tasks"
             app:destination="@id/taskListViewFragment" />
+        <argument
+            android:name="displayName"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/createTaskFragment"
