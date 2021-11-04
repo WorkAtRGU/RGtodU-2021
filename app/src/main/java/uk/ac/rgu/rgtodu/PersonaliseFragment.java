@@ -78,10 +78,17 @@ public class PersonaliseFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View view){
+        // get the name entered by the user, to send to HomeFragment
+        EditText etPersonaliseName = getView().findViewById(R.id.et_personalise_name);
+        String personaliseName = etPersonaliseName.getText().toString();
+
         Bundle bundle = new Bundle();
-        EditText et = getView().findViewById(R.id.et_personalise_name);
-        String userText = et.getText().toString();
-        bundle.putString("displayName", userText);
-        Navigation.findNavController(view).navigate(R.id.action_personalise_to_home, bundle);
+        // check something was actually entered
+        if (personaliseName.length() > 0) {
+            bundle.putString("displayName", personaliseName);
+        }
+        // launch the action
+        Navigation.findNavController(view).navigate(
+                R.id.action_personalise_to_home, bundle);
     }
 }

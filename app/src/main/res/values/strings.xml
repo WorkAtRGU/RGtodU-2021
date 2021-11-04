@@ -6,6 +6,7 @@
 
     <string name="app_name">RGTodU</string>
     <string name="tv_home_msg_add_task">Got something to do?</string>
+    <string name="tv_home_welcome">Hello %1$s, got something to do?</string>
     <string name="tv_home_msg_add_alternative">Something on your mind?</string>
     <string name="btn_home_add_task">Add a task</string>
     <string name="btn_home_view_tasks">View tasks (RecyclerView)</string>
@@ -53,6 +54,7 @@
     <string name="tv_taskListItemHoursDiplay">%1$d hours</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="view_lauch_timer_error">"Sorry, unable to start a timer. "</string>
 </resources>
 
 

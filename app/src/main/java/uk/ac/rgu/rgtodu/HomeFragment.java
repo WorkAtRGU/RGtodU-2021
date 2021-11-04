@@ -2,6 +2,8 @@ package uk.ac.rgu.rgtodu;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -23,10 +25,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_DISPLAY_NAME = "displayName";
 
-
-
-    private String displayName;
-
+    private String mDisplayName;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -36,13 +35,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
+     * @param displayName The name to be displayed
      * @return A new instance of fragment HomeFragment.
      */
-    public static HomeFragment newInstance(String param1) {
+    public static HomeFragment newInstance(String displayName) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_DISPLAY_NAME, param1);
+        args.putString(ARG_DISPLAY_NAME, displayName);
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,7 +51,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             Bundle args = getArguments();
-            displayName = args.getString(ARG_DISPLAY_NAME);
+            mDisplayName = args.getString(ARG_DISPLAY_NAME);
         }
     }
 
@@ -62,16 +61,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-//        Log.d("HOME", "name is " + mParam1 + " " + mParam2);
-
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
-        if (displayName != null){
-            TextView tvWelcome = view.findViewById(R.id.tv_home_add_task);
-            String welcomeMessage = "Hello " + displayName;
-            tvWelcome.setText(welcomeMessage);
-        }
 
         // Add click listener for the three buttons
         // Add A Task Button
@@ -92,6 +83,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         // Now the View is setup, return it
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        // Update the welcome message
+        if (mDisplayName != null) {
+            TextView tvWelcome = view.findViewById(R.id.tv_home_welcome);
+            String welcomeMsg = getString(R.string.tv_home_welcome, mDisplayName);
+            tvWelcome.setText(welcomeMsg);
+        }
     }
 
     @Override

@@ -25,7 +25,6 @@ tools:context=".PersonaliseFragment">
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="David"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tv_personalise_name"
         app:layout_constraintTop_toBottomOf="@+id/tv_personalise_name" />
