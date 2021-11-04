@@ -6,13 +6,28 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import uk.ac.rgu.rgtodu.data.Task;
+import uk.ac.rgu.rgtodu.data.TaskPriority;
 import uk.ac.rgu.rgtodu.data.TaskRepository;
 
 /**
@@ -69,7 +84,7 @@ public class TaskRecyclerViewFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_task_recycler_view, container, false);
 
         // create 1000 tasks for testing
-        List<Task> tasks = TaskRepository.getRepository(getContext()).getTasks(1000);
+        List<Task> tasks = new ArrayList<Task>();//TaskRepository.getRepository(getContext()).getTasks(1000);
 
         // get the RecycylerView on the UI
         RecyclerView rv = view.findViewById(R.id.rv_taskRecyclerView);
@@ -80,6 +95,52 @@ public class TaskRecyclerViewFragment extends Fragment {
         rv.setAdapter(adapter);
         // setup the layout manager on the recycler view
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        // make my volley request
+        String url = "https://cm3110-2021-default-rtdb.europe-west1.firebasedatabase.app/dcorsar.json";
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            tasks.clear();
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONObject tasksObject = jsonObject.getJSONObject("tasks");
+                            for (Iterator<String> it = tasksObject.keys(); it.hasNext();){
+                                String taskId = it.next();
+                                JSONObject taskObj = tasksObject.getJSONObject(taskId);
+                                String name = taskObj.getString("name");
+                                String description = taskObj.getString("description");
+                                int hoursToCompletion = taskObj.getInt("hoursToCompletion");
+                                long deadlineL = taskObj.getLong("deadline");
+                                String priority = taskObj.getString("priority");
+                                int i = 0;
+
+                                Task task = new Task();
+                                task.setName(name);
+                                task.setDescription(description);
+                                task.setHoursToCompletion(hoursToCompletion);
+                                task.setPriority(TaskPriority.valueOf(priority));
+                                Date deadLineDate = new Date();
+                                deadLineDate.setTime(deadlineL);
+                                task.setDeadline(deadLineDate);
+                                tasks.add(task);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        adapter.notifyDataSetChanged();
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("tasks", error.getLocalizedMessage());
+                    }
+        });
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(stringRequest);
+
 
         return view;
     }
