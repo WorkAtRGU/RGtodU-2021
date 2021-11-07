@@ -114,7 +114,6 @@ public class TaskRecyclerViewFragment extends Fragment {
                                 int hoursToCompletion = taskObj.getInt("hoursToCompletion");
                                 long deadlineL = taskObj.getLong("deadline");
                                 String priority = taskObj.getString("priority");
-                                int i = 0;
 
                                 Task task = new Task();
                                 task.setName(name);
