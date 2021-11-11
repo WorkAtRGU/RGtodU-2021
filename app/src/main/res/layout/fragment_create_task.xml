@@ -115,14 +115,14 @@ tools:context=".CreateTaskFragment">
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="@string/btn_action"
-    app:layout_constraintEnd_toStartOf="@+id/btnCancel"
+    app:layout_constraintEnd_toStartOf="@+id/btn_canclel_new_task"
     app:layout_constraintHorizontal_bias="0.5"
     app:layout_constraintHorizontal_chainStyle="packed"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="@+id/btnCancel" />
+    app:layout_constraintTop_toTopOf="@+id/btn_canclel_new_task" />
 
 <Button
-    android:id="@+id/btnCancel"
+    android:id="@+id/btn_canclel_new_task"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="16dp"

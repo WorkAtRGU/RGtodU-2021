@@ -85,7 +85,7 @@ public class ViewTaskFragment extends Fragment implements View.OnClickListener {
         Log.d(FRAG_TAG, "fragment on create");
 
         // initialise the data to be displayed in this UI
-        this.mTask = TaskRepository.getRepository(getContext()).getTask();
+        this.mTask = TaskRepository.getRepository(getContext()).getSyntheticTask();
     }
 
     @Override

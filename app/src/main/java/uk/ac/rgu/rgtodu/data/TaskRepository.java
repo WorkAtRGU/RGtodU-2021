@@ -14,6 +14,9 @@ import java.util.Random;
  */
 public class TaskRepository {
 
+    // member field for database operations
+    private TaskDao taskDao;
+
     /**
      * A field for how dates should be formatted before displaying to users
      * with the day of the month as a number, and the month as text
@@ -40,10 +43,29 @@ public class TaskRepository {
             synchronized (TaskRepository.class) {
                 if (INSTANCE == null)
                     INSTANCE = new TaskRepository();
+                // for accessing the database
+                INSTANCE.taskDao = TaskDatabase.getDatabase(context).taskDao();
+                // store the context in case its required
                 INSTANCE.context = context;
             }
         }
         return INSTANCE;
+    }
+
+    public void storeTask(Task task){
+        taskDao.insert(task);
+    }
+
+    public void storeTasks(List<Task> tasks){
+        taskDao.insertTasks(tasks);
+    }
+
+    public void deleteTask(Task task){
+        taskDao.delete(task);
+    }
+
+    public List<Task> getAllTasks(){
+        return taskDao.getAllTasks();
     }
 
     /**
@@ -51,10 +73,10 @@ public class TaskRepository {
      * @param number The number of Tasks to return
      * @return
      */
-    public List<Task> getTasks(int number){
+    public List<Task> getSyntheticTasks(int number){
         List<Task> tasks = new ArrayList<>(number);
         for (int i = 0; i < number; i++){
-            Task t = getTask();
+            Task t = getSyntheticTask();
          
             tasks.add(t);
         }
@@ -65,7 +87,7 @@ public class TaskRepository {
      * Returns a {@link Task} with randomly generated info.
      * @return a {@link Task} for tomorrow, with randomly generated details.
      */
-    public Task getTask(){
+    public Task getSyntheticTask(){
         // create a new Task
         Task t = new Task();
 

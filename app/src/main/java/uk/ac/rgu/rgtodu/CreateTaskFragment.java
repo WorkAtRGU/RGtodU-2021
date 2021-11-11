@@ -19,7 +19,10 @@ import android.widget.TextView;
 import java.util.Date;
 
 import uk.ac.rgu.rgtodu.data.Task;
+import uk.ac.rgu.rgtodu.data.TaskDao;
+import uk.ac.rgu.rgtodu.data.TaskDatabase;
 import uk.ac.rgu.rgtodu.data.TaskPriority;
+import uk.ac.rgu.rgtodu.data.TaskRepository;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,16 +31,7 @@ import uk.ac.rgu.rgtodu.data.TaskPriority;
  */
 public class CreateTaskFragment extends Fragment implements View.OnClickListener {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public CreateTaskFragment() {
+   public CreateTaskFragment() {
         // Required empty public constructor
     }
 
@@ -45,16 +39,12 @@ public class CreateTaskFragment extends Fragment implements View.OnClickListener
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment CreateTaskFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CreateTaskFragment newInstance(String param1, String param2) {
+    public static CreateTaskFragment newInstance() {
         CreateTaskFragment fragment = new CreateTaskFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -63,9 +53,8 @@ public class CreateTaskFragment extends Fragment implements View.OnClickListener
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -84,30 +73,38 @@ public class CreateTaskFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        // get all of the values that have been entered to create a new Task
-        String taskName = String.valueOf(((TextView)getView().findViewById(R.id.et_taskName)).getText());
-        String taskDesc = String.valueOf(((TextView)getView().findViewById(R.id.et_description)).getText());
-        Date taskDeadline = new Date(((CalendarView)getView().findViewById(R.id.cv_deadline)).getDate());
-        int hoursToCompletion = Integer.parseInt(String.valueOf(((EditText)getView().findViewById(R.id.et_hoursEstimate)).getText()));
+        if (v.getId() == R.id.btn_save_task) {
+            // get all of the values that have been entered to create a new Task
+            String taskName = String.valueOf(((TextView) getView().findViewById(R.id.et_taskName)).getText());
+            String taskDesc = String.valueOf(((TextView) getView().findViewById(R.id.et_description)).getText());
+            Date taskDeadline = new Date(((CalendarView) getView().findViewById(R.id.cv_deadline)).getDate());
+            int hoursToCompletion = Integer.parseInt(String.valueOf(((EditText) getView().findViewById(R.id.et_hoursEstimate)).getText()));
 
-        // create the new task with those values
-        Task task = new Task();
-        task.setName(taskName);
-        task.setDescription(taskDesc);
-        task.setHoursToCompletion(hoursToCompletion);
-        task.setDeadline(taskDeadline);
+            // create the new task with those values
+            Task task = new Task();
+            task.setName(taskName);
+            task.setDescription(taskDesc);
+            task.setHoursToCompletion(hoursToCompletion);
+            task.setDeadline(taskDeadline);
 
-        // now set the propority
-        int taskPriorityButton = ((RadioGroup)getView().findViewById(R.id.rb_taskPriority)).getCheckedRadioButtonId();
-//        if (taskPriorityButton == R.id.rb_low)
-//            task.setPriority(TaskPriority.LOW);
-//        else if (taskPriorityButtonPriorityButton == R.id.rb_medium)
+            // now set the propority
+            // for some unknown reason the app crashes when the radio buttons are clicked
+            // so set all to medium for now
+            int taskPriorityButton = ((RadioGroup) getView().findViewById(R.id.rb_taskPriority)).getCheckedRadioButtonId();
+            //        if (taskPriorityButton == R.id.rb_low)
+            //            task.setPriority(TaskPriority.LOW);
+            //        else if (taskPriorityButtonPriorityButton == R.id.rb_medium)
             task.setPriority(TaskPriority.MEDIUM);
-//        else if (taskPriorityButton == R.id.rb_high)
-//            task.setPriority(TaskPriority.HIGH);
+            //        else if (taskPriorityButton == R.id.rb_high)
+            //            task.setPriority(TaskPriority.HIGH);
 
-        int i = 0;
+            // now save the task
+            TaskRepository.getRepository(getContext()).storeTask(task);
 
-        Navigation.findNavController(v).navigate(R.id.action_create_task_to_home);
+            // now go back to the home page
+            Navigation.findNavController(v).navigate(R.id.action_create_task_to_home);
+        } else if (v.getId() == R.id.btn_canclel_new_task) {
+            Navigation.findNavController(v).navigate(R.id.action_create_task_to_home);
+        }
     }
 }
