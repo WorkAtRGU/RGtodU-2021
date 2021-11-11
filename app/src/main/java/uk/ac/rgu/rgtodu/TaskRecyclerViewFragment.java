@@ -37,14 +37,11 @@ import uk.ac.rgu.rgtodu.data.TaskRepository;
  */
 public class TaskRecyclerViewFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    // member variable for tasks being displayed
+    List<Task> tasks;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    // member variable for RecyclerView adapter
+    RecyclerView.Adapter adapter;
 
     public TaskRecyclerViewFragment() {
         // Required empty public constructor
@@ -54,16 +51,13 @@ public class TaskRecyclerViewFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     *
      * @return A new instance of fragment TaskRecyclerViewFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TaskRecyclerViewFragment newInstance(String param1, String param2) {
+    public static TaskRecyclerViewFragment newInstance() {
         TaskRecyclerViewFragment fragment = new TaskRecyclerViewFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -72,9 +66,11 @@ public class TaskRecyclerViewFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
+        // initialise the tasks list
+        tasks = new ArrayList<Task>();//TaskRepository.getRepository(getContext()).getTasks(1000);
+
     }
 
     @Override
@@ -83,19 +79,22 @@ public class TaskRecyclerViewFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_task_recycler_view, container, false);
 
-        // create 1000 tasks for testing
-        List<Task> tasks = new ArrayList<Task>();//TaskRepository.getRepository(getContext()).getTasks(1000);
-
         // get the RecycylerView on the UI
         RecyclerView rv = view.findViewById(R.id.rv_taskRecyclerView);
 
         // create a new Adapter for the Tasks
-        RecyclerView.Adapter adapter = new TaskRecyclerViewAdapter(getContext(), tasks);
+        adapter = new TaskRecyclerViewAdapter(getContext(), tasks);
         // set the recycler view's adapter
         rv.setAdapter(adapter);
         // setup the layout manager on the recycler view
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        downloadTasks();
+
+        return view;
+    }
+
+    private void downloadTasks(){
         // make my volley request
         String url = "https://cm3110-2021-default-rtdb.europe-west1.firebasedatabase.app/dcorsar.json";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -132,15 +131,12 @@ public class TaskRecyclerViewFragment extends Fragment {
 
                     }
                 }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("tasks", error.getLocalizedMessage());
-                    }
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("tasks", error.getLocalizedMessage());
+            }
         });
         RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(stringRequest);
-
-
-        return view;
     }
 }
