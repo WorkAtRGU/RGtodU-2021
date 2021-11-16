@@ -56,6 +56,7 @@ public class TaskListViewFragment extends Fragment implements AdapterView.OnItem
                 getContext(),
                 R.layout.task_list_view_item);
 
+        /*** Start of code block for updating with LiveData **/
         // add an observer to the list of all the tasks provided by the repository
         TaskRepository.getRepository(getContext()).getAllTasks().observe(getViewLifecycleOwner(), new Observer<List<Task>>() {
             @Override
@@ -66,6 +67,26 @@ public class TaskListViewFragment extends Fragment implements AdapterView.OnItem
                 adapter.notifyDataSetChanged();
             }
         });
+        /*** End of code block for updating with LiveData **/
+
+        /*** Start of code block for updating without LiveData
+         TaskDao taskDao = TaskDatabase.getDatabase(getContext()).taskDao();
+         Executor executor = Executors.newSingleThreadExecutor();
+         Handler hander = new Handler(Looper.getMainLooper());
+         executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                List<Task> tasks = taskDao.getAllTasksNonlivedata();
+                hander.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.setTasks(tasks);
+                        adapter.notifyDataSetChanged();
+                    }
+                  });
+            }
+         });
+        End of code block for updating without LiveData ***/
     }
 
     TaskListItemViewAdapter adapter;
