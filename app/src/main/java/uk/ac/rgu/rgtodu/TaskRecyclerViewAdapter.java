@@ -38,6 +38,13 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
         this.tasks = tasks;
     }
 
+    /**
+     * Set the data being displayed in this adapter to be tasks
+     * @param tasks The {@link List} of {@link Task}s to be displayed
+     */
+    public void setTasks(List<Task> tasks){
+        this.tasks = tasks;
+    }
 
     @NonNull
     @Override
@@ -101,8 +108,6 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
 
             // display a log message with the task's name
             Log.d(TAG, task.getName() );
-
-
         }
     }
 }

@@ -25,7 +25,7 @@ public abstract class TaskDatabase extends RoomDatabase {
                             TaskDatabase.class, "task_database")
                             .fallbackToDestructiveMigration()
                             // the following is only for testing / initial dev purposes
-                            .allowMainThreadQueries()
+//                            .allowMainThreadQueries()
                             .build();
                 }
             }

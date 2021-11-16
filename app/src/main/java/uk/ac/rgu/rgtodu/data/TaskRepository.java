@@ -1,11 +1,18 @@
 package uk.ac.rgu.rgtodu.data;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
+import android.widget.TextView;
+
+import androidx.lifecycle.LiveData;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * This class provides the single point of truth in the app for {@link TaskRepository}s, and
@@ -14,8 +21,16 @@ import java.util.Random;
  */
 public class TaskRepository {
 
-    // member field for database operations
+    /**
+     * Member field for database operations
+     */
+
     private TaskDao taskDao;
+
+    /**
+     * A field for storing the tasks from the database
+     */
+    private LiveData<List<Task>> tasks;
 
     /**
      * A field for how dates should be formatted before displaying to users
@@ -34,6 +49,18 @@ public class TaskRepository {
     private Context context;
 
     /**
+     * Create a new @{@link TaskRepository}
+     * @param context The {@link Context} for the database to operate in
+     */
+    private TaskRepository(Context context){
+
+        // setup for taskDao for accessing the database
+        taskDao = TaskDatabase.getDatabase(context).taskDao();
+        // get all of the tasks from the database using the taskDao
+        tasks = taskDao.getAllTasks();
+    }
+
+    /**
      * Gets the singleton {@link TaskRepository} for use when managing {@link Task}s
      * in the app.
      * @return The {@link TaskRepository} to be used for managing {@link Task}s in the app.
@@ -42,30 +69,69 @@ public class TaskRepository {
         if (INSTANCE == null){
             synchronized (TaskRepository.class) {
                 if (INSTANCE == null)
-                    INSTANCE = new TaskRepository();
-                // for accessing the database
-                INSTANCE.taskDao = TaskDatabase.getDatabase(context).taskDao();
-                // store the context in case its required
-                INSTANCE.context = context;
+                    INSTANCE = new TaskRepository(context);
             }
         }
         return INSTANCE;
     }
 
+    /**
+     * Gets all the tasks in the database
+     * @return a {@link LiveData} {@link List} of all the {@link Task} entities in the database
+     */
+    public LiveData<List<Task>> getAllTasks(){
+        return this.tasks;
+    }
+
+    /**
+     * Gets all the tasks in the database without using LiveData
+     *
+     * @return a {@link List} of all the {@link Task} entities in the database
+     */
+    public List<Task> getAllTasksNonlivedata(){
+        return this.taskDao.getAllTasksNonlivedata();
+    }
+
+    /**
+     * Stores task in the database
+     * @param task The {@link Task} to store in the Room database.
+     */
     public void storeTask(Task task){
-        taskDao.insert(task);
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                taskDao.insert(task);
+            }
+        });
     }
 
+    /**
+     * Stores the list of tasks in the database
+     * @param tasks The {@link List} of {@link Task}s to store in the Room database.
+     */
     public void storeTasks(List<Task> tasks){
-        taskDao.insertTasks(tasks);
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                taskDao.insertTasks(tasks);
+            }
+        });
     }
 
+    /**
+     * Deletes task from the database
+     * @param task The {@link Task} to delete from the Room database.
+     */
     public void deleteTask(Task task){
-        taskDao.delete(task);
-    }
-
-    public List<Task> getAllTasks(){
-        return taskDao.getAllTasks();
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                taskDao.delete(task);
+            }
+        });
     }
 
     /**

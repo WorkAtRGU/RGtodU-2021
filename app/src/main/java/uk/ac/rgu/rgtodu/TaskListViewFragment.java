@@ -3,6 +3,8 @@ package uk.ac.rgu.rgtodu;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,7 +38,6 @@ public class TaskListViewFragment extends Fragment implements AdapterView.OnItem
      *
      * @return A new instance of fragment TaskListViewFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static TaskListViewFragment newInstance() {
         TaskListViewFragment fragment = new TaskListViewFragment();
         Bundle args = new Bundle();
@@ -49,25 +50,34 @@ public class TaskListViewFragment extends Fragment implements AdapterView.OnItem
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
+
+        // Create our own adapter to use to display the Tasks in the ListView
+        adapter = new TaskListItemViewAdapter(
+                getContext(),
+                R.layout.task_list_view_item);
+
+        // add an observer to the list of all the tasks provided by the repository
+        TaskRepository.getRepository(getContext()).getAllTasks().observe(getViewLifecycleOwner(), new Observer<List<Task>>() {
+            @Override
+            public void onChanged(List<Task> tasks) {
+                // when the list of tasks changes, update the tasks in the adapter and
+                // force a notify of the dataset changing
+                adapter.setTasks(tasks);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
+    TaskListItemViewAdapter adapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_task_list_view, container, false);
 
-        // get the tasks from the database
-        List<Task> tasks = TaskRepository.getRepository(getContext()).getAllTasks();
 
         // get the ListView that they will be displayed in
         ListView lv_Tasks = view.findViewById(R.id.lv_tasks);
-
-        // Create our own adapter to use to display the Tasks in the ListView
-        TaskListItemViewAdapter adapter = new TaskListItemViewAdapter(
-                getContext(),
-                R.layout.task_list_view_item,
-                tasks);
 
         // Associate the Adapter with the ListView
         lv_Tasks.setAdapter(adapter);

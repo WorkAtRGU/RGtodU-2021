@@ -39,6 +39,28 @@ public class TaskListItemViewAdapter extends ArrayAdapter<Task>  {
         this.tasks = objects;
     }
 
+    /**
+     * Creates a new {@link TaskListItemViewAdapter, }
+     * @param context In which the adapter will be operating
+     * @param resource
+     */
+    public TaskListItemViewAdapter(@NonNull Context context, int resource) {
+        super(context, resource);
+        this.context = context;
+    }
+
+    /**
+     * Set the data being displayed in this adapter to be tasks
+     * @param tasks The {@link List} of {@link Task}s to be displayed
+     */
+    public void setTasks(List<Task> tasks){
+        this.tasks = tasks;
+        // this.tasks is only used here, need to call the ArrayAdapter methods
+        // to remove the data its storing and add all of the tasks to it
+        super.clear();
+        super.addAll(tasks);
+    }
+
     @NonNull
     @Override
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {

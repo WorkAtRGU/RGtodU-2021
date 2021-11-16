@@ -2,10 +2,15 @@ package uk.ac.rgu.rgtodu;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,8 +30,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import uk.ac.rgu.rgtodu.data.Task;
+import uk.ac.rgu.rgtodu.data.TaskDao;
+import uk.ac.rgu.rgtodu.data.TaskDatabase;
 import uk.ac.rgu.rgtodu.data.TaskPriority;
 import uk.ac.rgu.rgtodu.data.TaskRepository;
 
@@ -41,7 +50,7 @@ public class TaskRecyclerViewFragment extends Fragment {
     List<Task> tasks;
 
     // member variable for RecyclerView adapter
-    RecyclerView.Adapter adapter;
+   TaskRecyclerViewAdapter adapter;
 
     public TaskRecyclerViewFragment() {
         // Required empty public constructor
@@ -79,6 +88,12 @@ public class TaskRecyclerViewFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_task_recycler_view, container, false);
 
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         // get the RecycylerView on the UI
         RecyclerView rv = view.findViewById(R.id.rv_taskRecyclerView);
 
@@ -89,9 +104,37 @@ public class TaskRecyclerViewFragment extends Fragment {
         // setup the layout manager on the recycler view
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        downloadTasks();
+        /*** Start of code block for updating with LiveData **/
+        TaskRepository.getRepository(getContext()).getAllTasks()
+                .observe(getViewLifecycleOwner(), new Observer<List<Task>>() {
+            @Override
+            public void onChanged(List<Task> tasks) {
+                adapter.setTasks(tasks);
+                adapter.notifyDataSetChanged();
+            }
+        });
+        /*** End of code block for updating with LiveData **/
 
-        return view;
+        /*** Start of code block for updating without LiveData
+        TaskDao taskDao = TaskDatabase.getDatabase(getContext()).taskDao();
+        Executor executor = Executors.newSingleThreadExecutor();
+        Handler hander = new Handler(Looper.getMainLooper());
+        executor.execute(new Runnable() {
+            @Override
+                public void run() {
+                List<Task> tasks = taskDao.getAllTasksNonlivedata();
+                hander.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.setTasks(tasks);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+            }   });
+         End of code block for updating without LiveData ***/
+
+
+//        downloadTasks();
     }
 
     private void downloadTasks(){

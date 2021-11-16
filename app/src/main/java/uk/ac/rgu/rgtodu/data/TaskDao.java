@@ -1,5 +1,6 @@
 package uk.ac.rgu.rgtodu.data;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -19,10 +20,18 @@ public interface TaskDao {
     public void insertTasks(List<Task> tasks);
 
     @Query("Select * from task")
-    public List<Task> getAllTasks();
+    public LiveData<List<Task>> getAllTasks();
+
+    /**
+     * For returning all of the {@link Task} without using {@link LiveData}
+     *
+     * @return
+     */
+    @Query("Select * from task")
+    public List<Task> getAllTasksNonlivedata();
 
     @Query("Select * from task WHERE name like :name")
-    public List<Task> findTasksByName(String name);
+    public LiveData<List<Task>> findTasksByName(String name);
 
     @Delete
     public void delete(Task task);
