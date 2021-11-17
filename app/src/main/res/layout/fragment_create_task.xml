@@ -10,58 +10,57 @@ tools:context=".CreateTaskFragment">
         android:id="@+id/tv_taskName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:text="@string/tv_taskName"
         app:layout_constraintBottom_toBottomOf="@+id/et_taskName"
+        app:layout_constraintEnd_toStartOf="@+id/et_taskName"
         app:layout_constraintTop_toTopOf="@+id/et_taskName"
-        app:layout_constraintVertical_bias="0.275"
-        tools:layout_editor_absoluteX="42dp" />
+        app:layout_constraintVertical_bias="0.275" />
 
-<EditText
-    android:id="@+id/et_taskName"
-    android:layout_width="0dp"
-    android:layout_height="48dp"
-    android:layout_marginStart="8dp"
-    android:layout_marginLeft="8dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginEnd="8dp"
-    android:layout_marginRight="8dp"
-    android:ems="10"
-    android:inputType="textPersonName"
-    android:text="Name"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toEndOf="@+id/tv_hoursEstimate"
-    app:layout_constraintTop_toTopOf="parent" />
+    <EditText
+        android:id="@+id/et_taskName"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_hoursEstimate"
+        app:layout_constraintTop_toTopOf="parent" />
 
-<RadioGroup
-    android:id="@+id/rb_taskPriority"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    app:layout_constraintEnd_toEndOf="@+id/et_taskName"
-    app:layout_constraintStart_toStartOf="@+id/et_taskName"
-    app:layout_constraintTop_toBottomOf="@+id/et_description">
-
-    <RadioButton
-        android:id="@+id/rb_low"
-        android:layout_width="wrap_content"
+    <RadioGroup
+        android:id="@+id/rb_taskPriority"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:onClick="onRadioButtonClicked"
-        android:text="@string/rb_low" />
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/et_taskName"
+        app:layout_constraintStart_toStartOf="@+id/et_taskName"
+        app:layout_constraintTop_toBottomOf="@+id/et_description">
 
-    <RadioButton
-        android:id="@+id/rb_medium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onRadioButtonClicked"
-        android:text="@string/rb_medium" />
+        <RadioButton
+            android:id="@+id/rb_low"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onRadioButtonClicked"
+            android:text="@string/rb_low" />
 
-    <RadioButton
-        android:id="@+id/rb_high"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onRadioButtonClicked"
-        android:text="@string/rb_high" />
-</RadioGroup>
+        <RadioButton
+            android:id="@+id/rb_medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onRadioButtonClicked"
+            android:text="@string/rb_medium" />
+
+        <RadioButton
+            android:id="@+id/rb_high"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onRadioButtonClicked"
+            android:text="@string/rb_high" />
+    </RadioGroup>
 
 <TextView
     android:id="@+id/tv_priority"
@@ -90,8 +89,10 @@ tools:context=".CreateTaskFragment">
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="number"
-        app:layout_constraintTop_toBottomOf="@+id/rb_taskPriority"
-        tools:layout_editor_absoluteX="118dp" />
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="@+id/et_taskName"
+        app:layout_constraintStart_toStartOf="@+id/et_taskName"
+        app:layout_constraintTop_toBottomOf="@+id/rb_taskPriority" />
 
 <TextView
     android:id="@+id/tv_deadline"
@@ -101,14 +102,14 @@ tools:context=".CreateTaskFragment">
     app:layout_constraintEnd_toEndOf="@+id/tv_hoursEstimate"
     app:layout_constraintTop_toTopOf="@+id/cv_deadline" />
 
-<CalendarView
-    android:id="@+id/cv_deadline"
-    android:layout_width="0dp"
-    android:layout_height="272dp"
-    android:layout_marginTop="8dp"
-    app:layout_constraintEnd_toEndOf="@+id/et_hoursEstimate"
-    app:layout_constraintStart_toStartOf="@+id/et_hoursEstimate"
-    app:layout_constraintTop_toBottomOf="@+id/et_hoursEstimate" />
+    <CalendarView
+        android:id="@+id/cv_deadline"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/et_hoursEstimate"
+        app:layout_constraintStart_toStartOf="@+id/et_hoursEstimate"
+        app:layout_constraintTop_toBottomOf="@+id/et_hoursEstimate" />
 
 <Button
     android:id="@+id/btn_save_task"
@@ -132,17 +133,18 @@ tools:context=".CreateTaskFragment">
     app:layout_constraintStart_toEndOf="@+id/btn_save_task"
     app:layout_constraintTop_toBottomOf="@+id/cv_deadline" />
 
-<EditText
-    android:id="@+id/et_description"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
-    android:ems="10"
-    android:gravity="start|top"
-    android:inputType="textMultiLine"
-    app:layout_constraintEnd_toEndOf="@+id/et_taskName"
-    app:layout_constraintStart_toStartOf="@+id/et_taskName"
-    app:layout_constraintTop_toBottomOf="@+id/et_taskName" />
+    <EditText
+        android:id="@+id/et_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="@+id/et_taskName"
+        app:layout_constraintStart_toStartOf="@+id/et_taskName"
+        app:layout_constraintTop_toBottomOf="@+id/et_taskName" />
 
 <TextView
     android:id="@+id/tv_description"
