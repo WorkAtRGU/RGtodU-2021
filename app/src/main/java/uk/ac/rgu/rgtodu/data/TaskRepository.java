@@ -106,6 +106,7 @@ public class TaskRepository {
         });
     }
 
+
     /**
      * Stores the list of tasks in the database
      * @param tasks The {@link List} of {@link Task}s to store in the Room database.
@@ -116,6 +117,34 @@ public class TaskRepository {
             @Override
             public void run() {
                 taskDao.insertTasks(tasks);
+            }
+        });
+    }
+
+    /**
+     * Updates task in the database
+     * @param task The {@link Task} to store in the Room database.
+     */
+    public void updateTask(Task task){
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                taskDao.update(task);
+            }
+        });
+    }
+
+    /**
+     * Stores the list of tasks in the database
+     * @param tasks The {@link List} of {@link Task}s to store in the Room database.
+     */
+    public void updateTasks(List<Task> tasks){
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                taskDao.updateTasks(tasks);
             }
         });
     }
